@@ -1,0 +1,10 @@
+vendor/
+web/css/
+web/js/
+tmp/
+node_modules/
+cache/*
+app/config.php
+assets/css/*css
+assets/css/*css.map
+.sass-cache/

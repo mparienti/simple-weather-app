@@ -1,0 +1,8 @@
+{
+    "require": {
+        "silex/silex": "~2.0",
+        "twig/twig": "^1.24",
+        "cache/filesystem-adapter": "^0.3.0",
+        "cmfcmf/openweathermap-php-api": "^2.1"
+    }
+}

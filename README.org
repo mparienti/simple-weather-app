@@ -1,0 +1,72 @@
+
+* Presentation
+
+Simple Weather is a very simple application, which gives weather forecast.
+
+* Installation
+
+** Preparation
+
+Get an API key by [[https://home.openweathermap.org/users/sign_up][Openweathermap]].
+
+
+** Requirements
+
++ nginx and php-fpm
++ composer in your path
++ gem in your path
++ npm in your path
+
+
+** Files
+
+#+BEGIN_SRC shell
+git clone https://github.com/mparienti/simple-weather-app
+cd simple-weather-app
+gem install sass
+composer install
+npm install
+cp app/config.php-dist app/config.php
+cp assets/css/bootstrap.scss node_modules/bootstrap-sass/assets/stylesheets/
+grunt
+chmod a+w cache/
+#+END_SRC
+
+then edit ~app/config.php~ to configure the API Key you got on the previous
+step.
+
+
+** Nginx configuration
+
+Your nginx configuration should be something like
+#+BEGIN_SRC conf
+server
+{
+    listen 80;
+    server_name whatever;
+    root /where/you/clone/simple-weather-app/web;
+
+    location / {
+        try_files $uri /index.php?$args;
+    }
+    location ~ \.php$ {
+        fastcgi_pass unix:/var/run/php5-fpm.sock;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include /etc/nginx/fastcgi.conf;
+    }
+}
+
+#+END_SRC
+
+
+* Licence
+
+Simple Weather App is licensed under the [[http://www.gnu.org/licenses/agpl.html][GNU Affero General Public License]].
+
+This software includes the following items:
++ [[http://zeptojs.com/][Zepto]]
++ [[http://getbootstrap.com/][Bootstrap]]
++ [[https://github.com/ochosi/weather-icons][Icons by Simon Steinbeiß, License=GPL-2]]
+

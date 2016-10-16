@@ -1,0 +1,232 @@
+{% macro showday(day) %}
+{% if day == now|date('Y-m-d') %}
+Today
+{% else %}
+{% set tomorow=now|date_modify("+1 day")|date("Y-m-d") %}
+{% if day == tomorow %}
+Tomorow
+{% else %}
+{{ day }}
+{% endif %}
+{% endif %}
+{% endmacro %}
+
+{% macro showfromtime(time) %}
+{% if time.from == time.to %}
+{{ time.from|date('H:i') }}
+{% else %}
+{{ time.from|date('H:i') }} - {{ time.to|date('H:i') }}
+{% endif %}
+{% endmacro %}
+
+{% macro showforecasttext(forecast) %}
+<span title="Temperature between {{ forecast.temperature.min.getValue() }} and {{ forecast.temperature.max.getValue() }}">{{ forecast.temperature|raw }}</span><br/>
+{% if forecast.precipitation.getValue() > 0 %}{{ forecast.precipitation.getDescription()|title }}: {{forecast.precipitation.getValue()}} mm<br/>{%endif%}
+{{ forecast.clouds.getDescription() }}<br/>
+<span title="{{ forecast.wind.direction.getDescription() }}">{{ forecast.wind.speed }}  {{forecast.wind.direction.unit }}</span><br/>
+<span title="Pression: {{ forecast.pressure }}">{{ forecast.pressure }}</span> &amp;
+<span title="Humidity: {{ forecast.humidity }}">{{ forecast.humidity }}</span><br/>
+{% endmacro %}
+
+
+{% macro showfromdatetime(time) %}
+{% if time.from == time.to %}
+{{ time.from|date('Y-m-d H:i') }}
+{% else %}
+{{ time.from|date('Y-m-d H:i') }} - {{ time.to|date('H:i') }}
+{% endif %}
+{% endmacro %}
+
+{% macro getimg(icon, description) %}
+<img src="img/icons/{{icon}}" style="max-height: 20%;" title="{{description}}">
+{% endmacro %}
+
+{% macro geticon(id, icon, description) %}
+{% import _self as self %}
+{% if icon == '01n' %}
+{{ self.getimg('sun-night.png', description) }}
+{% elseif icon == '01d' or id == '800' %}
+{{ self.getimg('sun.png', description) }}
+{% elseif icon == '02d'  %}
+{{ self.getimg('lightcloud.png', description) }}
+{% elseif icon == '02n'  %}
+{{ self.getimg('lightcloud-night.png', description) }}
+{% elseif icon == '03d'  %}
+{{ self.getimg('partlycloud.png', description) }}
+{% elseif icon == '03n'  %}
+{{ self.getimg('partlycloud-night.png', description) }}
+{% elseif icon == '04n' or icon == '04d'  %}
+{{ self.getimg('cloud.png', description) }}
+{% elseif icon == '09d'  %}
+{{ self.getimg('lightrainsun.png', description) }}
+{% elseif icon == '09n'  %}
+{{ self.getimg('lightrainsun-night.png', description) }}
+{% elseif icon == '10d'  %}
+{{ self.getimg('lightrain.png', description) }}
+{% elseif icon == '10n'  %}
+{{ self.getimg('lightrain-night.png', description) }}
+{% elseif icon == '03d'  %}
+{{ self.getimg('partlycloud.png', description) }}
+{% elseif icon == '03n'  %}
+{{ self.getimg('partlycloud-night.png', description) }}
+{% elseif icon == '03d'  %}
+{{ self.getimg('partlycloud.png', description) }}
+{% elseif icon == '03n'  %}
+{{ self.getimg('partlycloud-night.png', description) }}
+{% elseif icon == '50d' or (id > 700 and id < 750)   %}
+{{ self.getimg('fog.png', description) }}
+{% elseif icon == '50n'  %}
+{{ self.getimg('fog-night.png', description) }}
+
+
+{% else %}
+{{ id }} - {{ icon }} - {{ description }}
+{% endif %}
+{% endmacro %}
+
+{#
+
+rain-night.png
+rain.png
+
+rainthunder-night.png
+rainthunder.png
+
+
+lightrainthunder-night.png
+lightrainthunder.png
+
+lightrainthundersun-night.png
+lightrainthundersun.png
+
+nodata.png
+
+sleet-night.png
+sleet.png
+
+sleetsun-night.png
+sleetsun.png
+
+sleetsunthunder-night.png
+sleetsunthunder.png
+
+sleetthunder-night.png
+sleetthunder.png
+
+snow-night.png
+snow.png
+
+snowsun-night.png
+snowsun.png
+
+snowsunthunder-night.png
+snowsunthunder.png
+
+snowthunder-night.png
+snowthunder.png
+
+
+SYMBOL_NODATA,
+SYMBOL_SUN,
+SYMBOL_LIGHTCLOUD,
+SYMBOL_PARTLYCLOUD,
+SYMBOL_CLOUD,
+SYMBOL_LIGHTRAINSUN,
+SYMBOL_LIGHTRAINTHUNDERSUN,
+SYMBOL_SLEETSUN,
+SYMBOL_SNOWSUN,
+SYMBOL_LIGHTRAIN,
+SYMBOL_RAIN,
+SYMBOL_RAINTHUNDER,
+SYMBOL_SLEET,
+SYMBOL_SNOW,
+SYMBOL_SNOWTHUNDER,
+SYMBOL_FOG,
+SYMBOL_SUNPOLAR,
+SYMBOL_LIGHTCLOUDPOLAR,
+SYMBOL_LIGHTRAINSUNPOLAR,
+SYMBOL_SNOWSUNPOLAR,
+SYMBOL_SLEETSUNTHUNDER,
+SYMBOL_SNOWSUNTHUNDER,
+SYMBOL_LIGHTRAINTHUNDER,
+SYMBOL_SLEETTHUNDER,
+SYMBOL_COUNT
+
+/*
+* TRANSLATORS: How these symbols are named and defined is explained at
+* http://om.yr.no/forklaring/symbol/ and http://api.yr.no/faq.html#symbols.
+* To be more concise / shorter, the plugin uses names that deviate a bit from yr.no, so that
+* they fit well in the tooltip, forecast tab etc.
+*
+* More information can be obtained from the following pages:
+* http://www.theweathernetwork.com/weathericons/?product=weathericons&pagecontent=index
+* http://www.theweathernetwork.com/index.php?product=help&placecode=cabc0164&pagecontent=helpicons
+* http://www.mir-co.net/sonstiges/wetterausdruecke.htm
+* The latter page is in German, but it contains a symbol table with Norwegian descriptions.
+*/
+{  1, "SUN",                 N_("Sunny"),                      N_("Clear")                      },
+{  2, "LIGHTCLOUD",          N_("Lightly cloudy"),             N_("Lightly cloudy")             },
+{  3, "PARTLYCLOUD",         N_("Partly cloudy"),              N_("Partly cloudy")              },
+{  4, "CLOUD",               N_("Cloudy"),                     N_("Cloudy")                     },
+
+/*
+* http://www.theweathernetwork.com/weathericons/?product=weathericons&pagecontent=index:
+*   "Showers – Some sun is expected, interspersed with showers from
+*    time to time. As opposed to rain, showers describe liquid
+*    precipitation that can vary greatly in intensity over a short
+*    amount of time. [...] Precipitation may be locally heavy for
+*    short amounts of time."
+*/
+{  5, "LIGHTRAINSUN",        N_("Rain showers"),               N_("Rain showers")               },
+
+/*
+* http://www.theweathernetwork.com/weathericons/?product=weathericons&pagecontent=index:
+*   "Thunder Showers - Intermittent rain showers with thunder and lightning, generally
+*    short-lived."
+*/
+{  6, "LIGHTRAINTHUNDERSUN", N_("Thunder showers"),            N_("Thunder showers")            },
+
+/* Analogues to "Rain showers" */
+{  7, "SLEETSUN",            N_("Sleet showers"),              N_("Sleet showers")              },
+{  8, "SNOWSUN",             N_("Snow showers"),               N_("Snow showers")               },
+
+/* It's raining, usually incessantly, but not heavily. */
+{  9, "LIGHTRAIN",           N_("Light rain"),                 N_("Light rain")                 },
+
+/* Heavy, usually incessant rain. met.no now uses "heavy rain", but personally I find light
+* rain and rain somewhat better. Symbol names indicate this is the way met.no did it some
+* time ago. */
+{ 10, "RAIN",                N_("Rain"),                       N_("Rain")                       },
+
+{ 11, "RAINTHUNDER",         N_("Rain with thunder"),          N_("Rain with thunder")          },
+
+/* Sleet is a mixture of rain and snow, but it's not hail. */
+{ 12, "SLEET",               N_("Sleet"),                      N_("Sleet")                      },
+
+{ 13, "SNOW",                N_("Snow"),                       N_("Snow")                       },
+
+/*
+* http://en.wikipedia.org/wiki/Thundersnow:
+*   "Thundersnow, also known as a winter thunderstorm or a thunder snowstorm, is a relatively
+*    rare kind of thunderstorm with snow falling as the primary precipitation instead of
+*    rain. It typically falls in regions of strong upward motion within the cold sector of an
+*    extratropical cyclone."
+*/
+{ 14, "SNOWTHUNDER",         N_("Thundersnow"),                N_("Thundersnow")                },
+
+{ 15, "FOG",                 N_("Fog"),                        N_("Fog")                        },
+
+/* Symbols 16-19 are used for polar days (unused beginning with API version 1.2) */
+{ 16, "SUN",                 N_("Sunny"),                      N_("Clear")                      },
+{ 17, "LIGHTCLOUD",          N_("Lightly cloudy"),             N_("Lightly cloudy")             },
+{ 18, "LIGHTRAINSUN",        N_("Rain showers"),               N_("Rain showers")               },
+{ 19, "SNOWSUN",             N_("Snow showers"),               N_("Snow showers")               },
+
+/* Same as symbols 1-15, but with thunder */
+{ 20, "SLEETSUNTHUNDER",     N_("Sleet showers with thunder"), N_("Sleet showers with thunder") },
+{ 21, "SNOWSUNTHUNDER",      N_("Snow showers with thunder"),  N_("Snow showers with thunder")  },
+{ 22, "LIGHTRAINTHUNDER",    N_("Light rain with thunder"),    N_("Light rain with thunder")    },
+{ 23, "SLEETTHUNDER",        N_("Sleet with thunder"),         N_("Sleet with thunder")         },
+
+
+#}

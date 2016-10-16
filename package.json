@@ -1,0 +1,13 @@
+{
+  "author": "Michaël Parienti",
+  "name": "Simple-Weather-App",
+  "version": "1.0.0",
+  "devDependencies": {
+    "grunt": "1.0.1",
+    "grunt-contrib-concat": "1.0.1",
+    "grunt-contrib-sass": "1.0.0"
+  },
+  "dependencies": {
+    "bootstrap-sass": "3.3.7"
+  }
+}
