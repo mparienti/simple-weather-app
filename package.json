@@ -2,7 +2,11 @@
   "author": "Michaël Parienti",
   "name": "Simple-Weather-App",
   "version": "1.0.0",
-  "devDependencies": {
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mparienti/simple-weather-app.git"
+   },
+    "devDependencies": {
     "grunt": "1.0.1",
     "grunt-contrib-concat": "1.0.1",
     "grunt-contrib-sass": "1.0.0"
