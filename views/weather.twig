@@ -100,8 +100,8 @@
 
                  $(document).on('mousemove', '.ct-point', function(event) {
                    $tooltip.css({
-                     left: event.offsetX - $tooltip.width() / 2,
-                     top: event.offsetY - $tooltip.height() - 20
+                     left: (event.originalEvent.layerX || event.offsetX) - $tooltip.width() / 2,
+                     top: (event.originalEvent.layerY || event.offsetY) - $tooltip.height() - 20
                    });
                  });
                 </script>
