@@ -19,7 +19,7 @@ module.exports = function(grunt) {
     sass: {
       dist: { 
         files: {
-          'assets/css/main.css': 'node_modules/bootstrap-sass/assets/stylesheets/bootstrap.scss',
+          'assets/css/main.css': 'assets/css/bootstrap.scss',
         },
         option: {
           precision: 8,

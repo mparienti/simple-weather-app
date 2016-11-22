@@ -27,7 +27,6 @@ gem install sass
 composer install
 npm install
 cp app/config.php-dist app/config.php
-cp assets/css/bootstrap.scss node_modules/bootstrap-sass/assets/stylesheets/
 grunt
 chmod a+w cache/
 #+END_SRC
