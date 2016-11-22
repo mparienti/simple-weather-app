@@ -89,8 +89,8 @@
 
                  $(document).on('mouseenter', '.ct-point', function() {
                    var value = $(this).attr('ct:value');
-                   date = moment(new Date(parseInt(value.split(',')[0]))).format('DD-MM h:mm')
-                   $tooltip.text(date + ': ' + value.split(',')[1]);
+                   date = moment(new Date(parseInt(value.split(',')[0]))).format('DD-MM HH:mm')
+                   $tooltip.text(date + ': ' + value.split(',')[1] + '°C');
                    $tooltip.removeClass('tooltip-hidden');
                  });
 
