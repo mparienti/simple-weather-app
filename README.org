@@ -35,8 +35,9 @@ then edit ~app/config.php~ to configure the API Key you got on the previous
 step.
 
 
-** Nginx configuration
+** Web server configuration
 
+*** Nginx
 Your nginx configuration should be something like
 #+BEGIN_SRC conf
 server
@@ -59,6 +60,14 @@ server
 
 #+END_SRC
 
+
+*** Apache
+Your server configuration should point to the directory
+~/where/you/clone/simple-weather-app/web~, and make sure mod_rewrite is
+enabled.
+
+The ~web~ directory contains an ~.htaccess~ file which will be enough to
+make the app work.
 
 * Licence
 
