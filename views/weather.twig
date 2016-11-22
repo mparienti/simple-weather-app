@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Simple Weather App</title>
-    <link rel="stylesheet" href="/css/built.css">
-    <script src="/js/built.js"></script>
+    <link rel="stylesheet" href="/css/built.min.css">
+    <script src="/js/built.min.js"></script>
   </head>
   <body>
 
@@ -46,18 +46,65 @@
               <div class="col-xs-2">
                 {{ utils.geticon(current.weather.id, current.weather.icon, current.weather.description) }}
               </div>
-              <div class="col-xs-3">
+              <div class="col-xs-2">
                 {{ current.temperature|raw }}<br/>
                 {% if current.precipitation.getValue() > 0 %}{{ current.precipitation.getDescription()|title }}: {{current.precipitation.getValue()}}mm<br/>{%endif%}
                 {{ current.clouds.getDescription() }}<br/>
               </div>
-              <div class="col-xs-3">
+              <div class="col-xs-2">
                 <span title="{{ current.wind.direction.getDescription() }}">{{ current.wind.speed }} {{current.wind.direction.unit }}</span><br/>
                 Pression: {{ current.pressure }}<br/>
                 Humidity: {{ current.humidity }}<br/>
                 <br/>
                 <br/>
                 <p>Sun rise: {{ current.sun.rise|date('H:i') }} -- sun set: {{ current.sun.set|date('H:i') }}</p>
+              </div>
+              <div class="col-xs-4">
+                <div class="ct-chart ct-golden-section"></div>
+                <script>
+                 var data = {
+                   series: [
+                     {
+                       name: 'forecasts',
+                       data: []
+                     }
+                   ],
+                 };
+                 var op = {
+                   showPoint: true ,
+                     axisX: {
+                       type: Chartist.FixedScaleAxis,
+                       divisor: 5,
+                       labelInterpolationFnc: function(value) {
+                         return moment(value).format('MMM D');
+                       }
+                     }
+                 } ;
+                 {% for forecast in forecasts %}
+                 {% set day = forecast.time.from.format('Y-m-d H:i') %}
+                   data.series[0].data.push( { x: new Date('{{day}}'), y: {{ forecast.temperature.getValue() }} } );
+                 {% endfor %}
+                 new Chartist.Line('.ct-chart', data, op);
+                 var $tooltip = $('<div class="tooltip tooltip-hidden"></div>').appendTo($('.ct-chart'));
+
+                 $(document).on('mouseenter', '.ct-point', function() {
+                   var value = $(this).attr('ct:value');
+                   date = moment(new Date(parseInt(value.split(',')[0]))).format('DD-MM h:mm')
+                   $tooltip.text(date + ': ' + value.split(',')[1]);
+                   $tooltip.removeClass('tooltip-hidden');
+                 });
+
+                 $(document).on('mouseleave', '.ct-point', function() {
+                   $tooltip.addClass('tooltip-hidden');
+                 });
+
+                 $(document).on('mousemove', '.ct-point', function(event) {
+                   $tooltip.css({
+                     left: event.offsetX - $tooltip.width() / 2,
+                     top: event.offsetY - $tooltip.height() - 20
+                   });
+                 });
+                </script>
               </div>
             </div><!-- row -->
           </div> <!-- panel body -->
