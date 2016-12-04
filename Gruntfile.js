@@ -6,16 +6,21 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     concat: {
-      options: { //options supplémentaires
-        separator: ';', // permet d'ajouter un point-virgule entre chaque fichier concaténé.
-      },
       js: {
-        //src: ['assets/js/jquery-1.12.4.js',  'assets/js/jquery-ui.js',],
-        src: ['assets/js/zepto.js', 'js/go.js', 'node_modules/chartist/dist/chartist.js', 'node_modules/moment/moment.js'],
+        options: {
+          separator: ';',
+        },
+        src: [
+          'node_modules/zepto/dist/zepto.js',
+          'js/go.js',
+          'node_modules/chartist/dist/chartist.js',
+          'js/chartist-plugin-vertical-moment-lines.js',
+          'node_modules/moment/moment.js'
+             ],
         dest: 'web/js/built.js'
       },
       css:{
-        src: ['assets/css/*.css',], // 'node_modules/chartist/dist/chartist.css'
+        src: ['assets/css/*.css',],
         dest: 'web/css/built.css',
       },
     },
@@ -38,8 +43,9 @@ module.exports = function(grunt) {
     sass: {
       dist: {
         files: {
-          'assets/css/main.css': 'assets/css/bootstrap.scss',
-          'assets/css/chart.css':  'assets/css/chartist.scss',
+          'assets/css/main.css': 'stylesheets/bootstrap.scss',
+          'assets/css/chart.css':  'stylesheets/chartist.scss',
+          'assets/css/chartist-plugin-vertical-moment-lines.css': 'stylesheets/chartist-plugin-vertical-moment-lines.scss',
         },
         option: {
           precision: 8,

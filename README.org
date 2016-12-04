@@ -73,8 +73,13 @@ make the app work.
 
 Simple Weather App is licensed under the [[http://www.gnu.org/licenses/agpl.html][GNU Affero General Public License]].
 
-This software includes the following items:
-+ [[http://zeptojs.com/][Zepto]]
-+ [[http://getbootstrap.com/][Bootstrap]]
+The sources of this software includes the following items:
 + [[https://github.com/ochosi/weather-icons][Icons by Simon Steinbeiß, License=GPL-2]]
+
+This software uses the following softwares and libraries:
++ [[http://zeptojs.com/][Zepto]]
++ [[https://gionkunz.github.io/chartist-js/][Chartist.js]]
++ [[http://momentjs.com/][Momentjs]]
++ [[http://getbootstrap.com/][Bootstrap]]
+
 

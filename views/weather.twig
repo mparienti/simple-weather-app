@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Simple Weather App</title>
+    <link rel="icon" type="image/png" href="/img/icons/sun.png">
     <link rel="stylesheet" href="/css/built.min.css">
     <script src="/js/built.min.js"></script>
   </head>
@@ -78,12 +79,21 @@
                        labelInterpolationFnc: function(value) {
                          return moment(value).format('MMM D');
                        }
-                     }
-                 } ;
+                     }                 } ;
                  {% for forecast in forecasts %}
                  {% set day = forecast.time.from.format('Y-m-d H:i') %}
                    data.series[0].data.push( { x: new Date('{{day}}'), y: {{ forecast.temperature.getValue() }} } );
                  {% endfor %}
+                 op.plugins = [
+                   Chartist.plugins.verticalMomentLines({
+                     positions: [
+                       {% set sunrise = current.sun.rise|date('Y-m-d H:i') %}
+                       new Date('{{sunrise}}'),
+                       {% set sunset = current.sun.set|date('Y-m-d H:i') %}
+                       new Date('{{sunset}}')
+                     ]
+                   })
+                 ];
                  new Chartist.Line('.ct-chart', data, op);
                  var $tooltip = $('<div class="tooltip tooltip-hidden"></div>').appendTo($('.ct-chart'));
 
