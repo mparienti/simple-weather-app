@@ -5,8 +5,7 @@ tmp/
 node_modules/
 cache/*
 app/config.php
-assets/css/*css
-assets/css/*css.map
-stylesheets/*css
-stylesheets/*css.map
+assets/css/*
+stylesheets/*.css
+stylesheets/*.css.map
 .sass-cache/
