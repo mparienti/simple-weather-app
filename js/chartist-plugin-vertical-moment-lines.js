@@ -18,6 +18,8 @@
    *
    * Inspired from https://github.com/zubenkoivan/chartist-plugin-vertical-line/
    *
+   * by Michael Parienti
+   *
    */
   /* global Chartist */
   (function (window, document, Chartist) {
@@ -26,6 +28,7 @@
     var defaultOptions = {
       positions: undefined,
       labels: undefined,
+      classes: undefined,
       className: 'vt-mnt-line'
     };
 
@@ -41,7 +44,7 @@
 
       // $('.' + labelClassName).hide();
 
-      this.show = function (x) {
+      this.show = function (x, className) {
 
         // $label
         //   .html(options.label || '')
@@ -53,7 +56,7 @@
           x2: x,
           y1: chartRect.y1,
           y2: chartRect.y2// + $label.height()
-        }, options.className);
+        }, className);
       };
     };
 
@@ -71,9 +74,11 @@
         chart.on('created', function (data) {
           var verticalline = new VerticalLine(chart, data.chartRect, options);//all options is useless
           var x = 0;
+          var className = '';
           for (var i=0; i<options.positions.length; i++) {
+            className = (options.classes[i] != undefined) ? options.classes[i] : options.className;
             if ( (x = data.axisX.projectValue(options.positions[i].getTime())) > 0) {
-              verticalline.show(data.chartRect.x1 + x);
+              verticalline.show(data.chartRect.x1 + x, className);
             }
           }
         });

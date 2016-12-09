@@ -41,18 +41,15 @@
           </div>
           <div class="panel-body">
             <div class="row">
-              <div class="col-xs-2">
+              <div id="now-col">
                 <h4>Now</h4>
+                  {{ utils.geticon(current.weather.id, current.weather.icon, current.weather.description) }}
+                  <br><br>
+                  <h5>{{ current.temperature|raw }}</h5>
+                  <p>{% if current.precipitation.getValue() > 0 %}{{ current.precipitation.getDescription()|title }}: {{current.precipitation.getValue()}}mm<br/>{%endif%}
+                {{ current.clouds.getDescription() }}</p>
               </div>
-              <div class="col-xs-2">
-                {{ utils.geticon(current.weather.id, current.weather.icon, current.weather.description) }}
-              </div>
-              <div class="col-xs-2">
-                {{ current.temperature|raw }}<br/>
-                {% if current.precipitation.getValue() > 0 %}{{ current.precipitation.getDescription()|title }}: {{current.precipitation.getValue()}}mm<br/>{%endif%}
-                {{ current.clouds.getDescription() }}<br/>
-              </div>
-              <div class="col-xs-2">
+              <div class="col-xs-3"">
                 <span title="{{ current.wind.direction.getDescription() }}">{{ current.wind.speed }} {{current.wind.direction.unit }}</span><br/>
                 Pression: {{ current.pressure }}<br/>
                 Humidity: {{ current.humidity }}<br/>
@@ -60,7 +57,7 @@
                 <br/>
                 <p>Sun rise: {{ current.sun.rise|date('H:i') }} -- sun set: {{ current.sun.set|date('H:i') }}</p>
               </div>
-              <div class="col-xs-4">
+              <div class="col-xs-5">
                 <div class="ct-chart ct-golden-section"></div>
                 <script>
                  var data = {
@@ -80,8 +77,9 @@
                          return moment(value).format('MMM D');
                        }
                      }
-                 } ;
+                  } ;
                  var positions = [];
+                 var classes = [];
                  var times = {};
                  {% set previous_day = 0 %}
                  {% for forecast in forecasts %}
@@ -91,12 +89,16 @@
                  times = SunCalc.getTimes(new Date('{{day}}'), {{ forecasts.city.lat }}, {{ forecasts.city.lon }});
                  positions.push(new Date(times.sunrise));
                  positions.push(new Date(times.sunset));
+                 classes.push('sunrise');
+                 classes.push('sunset');
+                 {% set  previous_day = day %}
                  {% endif %}
                    data.series[0].data.push( { x: new Date('{{daytime}}'), y: {{ forecast.temperature.getValue() }} } );
                  {% endfor %}
                  op.plugins = [
                    Chartist.plugins.verticalMomentLines({
-                     positions: positions
+                     positions: positions,
+                     classes: classes,
                    })
                  ];
                  new Chartist.Line('.ct-chart', data, op);

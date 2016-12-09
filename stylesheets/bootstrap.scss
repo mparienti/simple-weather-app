@@ -5,6 +5,14 @@
  * Modified by Michaël Parienti
  */
 // Core variables and mixins
+
+
+#now-col {
+  text-align:center;
+  @extend .col-xs-4;
+}
+
+
 @import "../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/variables";
 @import "../node_modules/bootstrap-sass/assets/stylesheets/bootstrap/mixins";
 
