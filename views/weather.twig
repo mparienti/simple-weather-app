@@ -79,19 +79,24 @@
                        labelInterpolationFnc: function(value) {
                          return moment(value).format('MMM D');
                        }
-                     }                 } ;
+                     }
+                 } ;
+                 var positions = [];
+                 var times = {};
+                 {% set previous_day = 0 %}
                  {% for forecast in forecasts %}
-                 {% set day = forecast.time.from.format('Y-m-d H:i') %}
-                   data.series[0].data.push( { x: new Date('{{day}}'), y: {{ forecast.temperature.getValue() }} } );
+                 {% set daytime = forecast.time.from.format('Y-m-d H:i') %}
+                 {% set day = forecast.time.from.format('Y-m-d') %}
+                 {% if  previous_day != day %}
+                 times = SunCalc.getTimes(new Date('{{day}}'), {{ forecasts.city.lat }}, {{ forecasts.city.lon }});
+                 positions.push(new Date(times.sunrise));
+                 positions.push(new Date(times.sunset));
+                 {% endif %}
+                   data.series[0].data.push( { x: new Date('{{daytime}}'), y: {{ forecast.temperature.getValue() }} } );
                  {% endfor %}
                  op.plugins = [
                    Chartist.plugins.verticalMomentLines({
-                     positions: [
-                       {% set sunrise = current.sun.rise|date('Y-m-d H:i') %}
-                       new Date('{{sunrise}}'),
-                       {% set sunset = current.sun.set|date('Y-m-d H:i') %}
-                       new Date('{{sunset}}')
-                     ]
+                     positions: positions
                    })
                  ];
                  new Chartist.Line('.ct-chart', data, op);
