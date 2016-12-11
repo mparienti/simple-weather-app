@@ -74,7 +74,7 @@
                        type: Chartist.FixedScaleAxis,
                        divisor: 5,
                        labelInterpolationFnc: function(value) {
-                         return moment(value).format('MMM D');
+                         return mpm.simpleformat(value, 'day');
                        }
                      }
                   } ;
@@ -106,7 +106,7 @@
 
                  $(document).on('mouseenter', '.ct-point', function() {
                    var value = $(this).attr('ct:value');
-                   date = moment(new Date(parseInt(value.split(',')[0]))).format('DD-MM HH:mm')
+                   date = mpm.simpleformat(new Date(parseInt(value.split(',')[0])), 'full');
                    $tooltip.text(date + ': ' + value.split(',')[1] + '°C');
                    $tooltip.removeClass('tooltip-hidden');
                  });

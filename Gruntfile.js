@@ -15,7 +15,7 @@ module.exports = function(grunt) {
           'js/go.js',
           'node_modules/chartist/dist/chartist.js',
           'js/chartist-plugin-vertical-moment-lines.js',
-          'node_modules/moment/moment.js',
+          'js/mpm.simpleformat.js',
           'node_modules/suncalc/suncalc.js'
              ],
         dest: 'web/js/built.js'
