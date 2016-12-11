@@ -1,5 +1,7 @@
 
 $(document).ready(function () {
+
+  //form
   $("#search-inpt").keydown(function(event){
     if(event.which == 13 || event.keyCode == 13){
       event.preventDefault();
@@ -44,4 +46,26 @@ $(document).ready(function () {
     $('#place-form').append(dropdownlist).addClass('open');
     $('#places').click(clickOnPlaces);
   };
+
+  //graph
+  var $tooltip = $('<div class="tooltip tooltip-hidden"></div>').appendTo($('.ct-chart'));
+
+  $(document).on('mouseenter', '.ct-point', function() {
+    var value = $(this).attr('ct:value');
+    date = mpm.simpleformat(new Date(parseInt(value.split(',')[0])), 'full');
+    $tooltip.text(date + ': ' + value.split(',')[1] + '°C');
+    $tooltip.removeClass('tooltip-hidden');
+  });
+
+  $(document).on('mouseleave', '.ct-point', function() {
+    $tooltip.addClass('tooltip-hidden');
+  });
+
+  $(document).on('mousemove', '.ct-point', function(event) {
+    $tooltip.css({
+      left: (event.originalEvent.layerX || event.offsetX) - $tooltip.width() / 2,
+      top: (event.originalEvent.layerY || event.offsetY) - $tooltip.height() - 20
+    });
+  });
+
 })
