@@ -79,7 +79,6 @@ The sources of this software includes the following items:
 This software uses the following softwares and libraries:
 + [[http://zeptojs.com/][Zepto]]
 + [[https://gionkunz.github.io/chartist-js/][Chartist.js]]
-+ [[http://momentjs.com/][Momentjs]]
 + [[http://getbootstrap.com/][Bootstrap]]
 
 
