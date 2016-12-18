@@ -1,8 +1,17 @@
 .sunset {
   stroke: MidnightBlue;
-  stroke-width: 1px;
-}
+  stroke-width: 1px; }
+
 .sunrise {
   stroke: DarkKhaki;
-  stroke-width: 1px;
+  stroke-width: 1px; }
+
+.day {
+  fill: lightyellow;
+  fill-opacity: 0.5;
+}
+
+.night {
+  fill: lightsteelblue;
+  fill-opacity: 0.5;
 }

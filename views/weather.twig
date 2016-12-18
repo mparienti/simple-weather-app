@@ -78,27 +78,30 @@
                        }
                      }
                   } ;
-                 var positions = [];
-                 var classes = [];
+                 var lines = [];
+                 var rectangles = [];
                  var times = {};
+                 var r=undefined, s=undefined;
                  {% set previous_day = 0 %}
                  {% for forecast in forecasts %}
                  {% set daytime = forecast.time.from.format('Y-m-d H:i') %}
                  {% set day = forecast.time.from.format('Y-m-d') %}
                  {% if  previous_day != day %}
                  times = SunCalc.getTimes(new Date('{{day}}'), {{ forecasts.city.lat }}, {{ forecasts.city.lon }});
-                 positions.push(new Date(times.sunrise));
-                 positions.push(new Date(times.sunset));
-                 classes.push('sunrise');
-                 classes.push('sunset');
+                 r = new Date(times.sunrise);
+                 lines.push({value: r, className: 'sunrise'});
+                 rectangles.push({value: [s,NaN,r,Infinity], className: 'night'});
+                 s = new Date(times.sunset)
+                 lines.push({value: s, className: 'sunset'});
+                 rectangles.push({value: [r,NaN,s,Infinity], className: 'day'});
                  {% set  previous_day = day %}
                  {% endif %}
                    data.series[0].data.push( { x: new Date('{{daytime}}'), y: {{ forecast.temperature.getValue() }} } );
                  {% endfor %}
                  op.plugins = [
                    Chartist.plugins.verticalMomentLines({
-                     positions: positions,
-                     classes: classes,
+                     lines: lines,
+                     rectangles: rectangles,
                    })
                  ];
                  new Chartist.Line('.ct-chart', data, op);
