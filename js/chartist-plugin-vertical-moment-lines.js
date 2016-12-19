@@ -34,30 +34,39 @@
     var VerticalZone = function (chart, chartRect, data) {
 
       this.showline = function (x, className) {
-
-        // $label
-        //   .html(options.label || '')
-        //   .css({ left: x - $label.width() / 2 })
-        //   .show();
-
-        chart.svg.elem('line', {
-          x1: x,
-          x2: x,
-          y1: chartRect.y1,
-          y2: chartRect.y2// + $label.height()
-        }, className);
+        x = data.axisX.projectValue(x.getTime());
+        if ( x > 0 &&
+             (x + data.chartRect.x1) < data.chartRect.x2 ) {
+          chart.svg.elem('line', {
+            x1: data.chartRect.x1 + x,
+            x2: data.chartRect.x1 + x,
+            y1: chartRect.y1,
+            y2: chartRect.y2// + $label.height()
+          }, className);
+        }
       };
       this.showrect = function (value, className) {
-        var xmin = Math.min(data.axisX.projectValue(value[0].getTime()), data.axisX.projectValue(value[2].getTime()));
-        var ymin = Math.min(value[1], value[3]);
-        var xmax = Math.max(data.axisX.projectValue(value[0].getTime()), data.axisX.projectValue(value[2].getTime()));
-        var ymax = Math.max(value[1], value[3]);
-        chart.svg.elem('rect', {
-          x: chartRect.x1 + xmin,
-          y: chartRect.y2, //value[1] if not NaN
-          width: xmax-xmin,//,
-          height: chartRect.y1 - chartRect.y2 // value[3] if not NaN
-        }, className);
+        var x1, x2;
+        if (typeof value.x1 == 'undefined' ||
+            (x1 = data.axisX.projectValue(value.x1.getTime())) < 0 )  {
+              x1 = chartRect.x1;
+            } else {
+              x1 = chartRect.x1 + x1;
+            }
+        if (typeof value.x2 == 'undefined' ||
+            (x2 = data.axisX.projectValue(value.x2.getTime())) > chartRect.x2 )  {//faux
+              x2 = chartRect.x2;
+            } else {
+              x2 = chartRect.x1 + x2;
+            }
+        if (x2-x1 > 0) {
+          chart.svg.elem('rect', {
+            x: x1,
+            y: chartRect.y2, //should be value.x1
+            width: x2-x1,//,
+            height: chartRect.y1 - chartRect.y2 //should be abs(value.y1 - value.y2)
+          }, className);
+        }
       };
     };
 
@@ -78,15 +87,11 @@
           var className = '';
           for (var i=0; i<options.lines.length; i++) {
             className = options.lines[i].className;
-            if ( (x = data.axisX.projectValue(options.lines[i].value.getTime())) > 0) {//this test should be include in plugin
-              verticalzone.showline(data.chartRect.x1 + x, className);
-            }
+            verticalzone.showline(options.lines[i].value, className);
           }
           for (var i=0; i<options.rectangles.length; i++) {
             className = options.rectangles[i].className;
-            if ( (x = data.axisX.projectValue(options.rectangles[i].value[0].getTime())) > 0) {//this test should be include in plugin
-              verticalzone.showrect(options.rectangles[i].value, className);
-            }
+            verticalzone.showrect(options.rectangles[i].value, className);
           }
         });
       };

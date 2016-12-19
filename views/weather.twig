@@ -90,10 +90,10 @@
                  times = SunCalc.getTimes(new Date('{{day}}'), {{ forecasts.city.lat }}, {{ forecasts.city.lon }});
                  r = new Date(times.sunrise);
                  lines.push({value: r, className: 'sunrise'});
-                 rectangles.push({value: [s,NaN,r,Infinity], className: 'night'});
+                 rectangles.push({value: {x1: s, y1: NaN, x2:r, y2:Infinity}, className: 'night'});
                  s = new Date(times.sunset)
                  lines.push({value: s, className: 'sunset'});
-                 rectangles.push({value: [r,NaN,s,Infinity], className: 'day'});
+                 rectangles.push({value: {x1:r,y1:NaN,x2:s,y2:Infinity}, className: 'day'});
                  {% set  previous_day = day %}
                  {% endif %}
                    data.series[0].data.push( { x: new Date('{{daytime}}'), y: {{ forecast.temperature.getValue() }} } );
