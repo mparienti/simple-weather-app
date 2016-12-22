@@ -42,7 +42,7 @@
             x2: data.chartRect.x1 + x,
             y1: chartRect.y1,
             y2: chartRect.y2// + $label.height()
-          }, className);
+          }, className, true);
         }
       };
       this.showrect = function (value, className) {
@@ -65,7 +65,7 @@
             y: chartRect.y2, //should be value.x1
             width: x2-x1,//,
             height: chartRect.y1 - chartRect.y2 //should be abs(value.y1 - value.y2)
-          }, className);
+          }, className, true);
         }
       };
     };
