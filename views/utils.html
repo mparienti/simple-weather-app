@@ -21,7 +21,7 @@ Tomorow
 
 {% macro showforecasttext(forecast) %}
 <span title="Temperature between {{ forecast.temperature.min.getValue() }} and {{ forecast.temperature.max.getValue() }}">{{ forecast.temperature|raw }}</span><br/>
-{% if forecast.precipitation.getValue() > 0 %}{{ forecast.precipitation.getDescription()|title }}: {{forecast.precipitation.getValue()}} mm<br/>{%endif%}
+{% if forecast.precipitation.getValue() > 0 %}{{ forecast.precipitation.getDescription()|title }}: {{forecast.precipitation.getValue()|number_format(5)}} mm<br/>{%endif%}
 {{ forecast.clouds.getDescription() }}<br/>
 <span title="{{ forecast.wind.direction.getDescription() }}">{{ forecast.wind.speed }}  {{forecast.wind.direction.unit }}</span><br/>
 <span title="Pression: {{ forecast.pressure }}">{{ forecast.pressure }}</span> &amp;
@@ -77,6 +77,10 @@ Tomorow
 {{ self.getimg('fog.png', description) }}
 {% elseif icon == '50n'  %}
 {{ self.getimg('fog-night.png', description) }}
+{% elseif icon == '13n'  %}
+{{ self.getimg('snowsun-night.png', description) }}
+{% elseif icon == '13d'  %}
+{{ self.getimg('snow.png', description) }}
 
 
 {% else %}
