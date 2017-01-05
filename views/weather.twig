@@ -83,7 +83,7 @@
                  var times = {};
                  var r=undefined, s=undefined;
                  {% set previous_day = 0 %}
-                 {% for forecast in forecasts %}
+                 {% for forecast in forecasts  if forecast.time.to|date('U') > current.lastUpdate.format('U')  %}
                  {% set daytime = forecast.time.from.format('Y-m-d H:i') %}
                  {% set day = forecast.time.from.format('Y-m-d') %}
                  {% if  previous_day != day %}
