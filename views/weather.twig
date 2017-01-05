@@ -114,7 +114,7 @@
           </div>
 
         {% set previous_day = '' %}
-        {% for forecast in forecasts %}
+          {% for forecast in forecasts if forecast.time.to|date('U') > current.lastUpdate.format('U') %}
           {% set day = forecast.time.from.format('Y-m-d') %}
           {%  if day != previous_day %}
             {%  if '' != previous_day %}
