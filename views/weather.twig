@@ -70,14 +70,18 @@
                  };
                  var op = {
                    showPoint: true ,
-                     axisX: {
-                       type: Chartist.FixedScaleAxis,
-                       divisor: 5,
-                       labelInterpolationFnc: function(value) {
-                         return mpm.simpleformat(value, 'day');
-                       }
+                   axisY: {
+                     type: Chartist.AutoScaleAxis,
+                     scaleMinSpace: 50,
+                   },
+                   axisX: {
+                     type: Chartist.FixedScaleAxis,
+                     divisor: 0,
+                     labelInterpolationFnc: function(value) {
+                       return mpm.simpleformat(value, 'day');
                      }
-                  } ;
+                   },
+                 } ;
                  var lines = [];
                  var rectangles = [];
                  var times = {};
