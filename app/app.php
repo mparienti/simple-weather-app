@@ -27,7 +27,7 @@ $app->register(new Silex\Provider\TwigServiceProvider(),
 $app->get('/autocomplete', function (Request $request) use ($app) {
 
     try {
-        $baseUrl = 'http://nominatim.openstreetmap.org/search?';
+        $baseUrl = 'https://nominatim.openstreetmap.org/search?';
         $term = $request->query->get('term');
         $json = getJson($u="{$baseUrl}q={$term}&format=json");
         $response = [];
