@@ -31,14 +31,23 @@ $app->get('/autocomplete', function (Request $request) use ($app) {
         $term = $request->query->get('term');
         $json = getJson($u="{$baseUrl}q={$term}&format=json");
         $response = [];
+        $seen = [];
 
         if (is_array($json)) {
             foreach ($json as $geoname) {
                 if (!isset ($geoname->lon) || !isset($geoname->lat)) {
                     continue;
                 }
+                if ( in_array($geoname->display_name, $seen) ) {
+                    continue;
+                }
+                $seen[] = $geoname->display_name;
                 $response[] = array('id' => $geoname->lat . '|' . $geoname->lon,
                                     'label' => $geoname->display_name,
+                                    'icon' => $geoname->icon,
+                                    'type' => $geoname->type,
+                                    'class' => $geoname->class,
+                                    'importance' => $geoname->importance,
 
                 );
             }

@@ -39,7 +39,13 @@ $(document).ready(function () {
   var showPlace = function(data) {
     var dropdownlist = "<ul class=\"dropdown-menu\" id=\"places\">";
     $.map(data, function (listItem) {
-      dropdownlist += '<li><a id="'+listItem.id +'" href="#">' + listItem.label + '</a></li>';
+      dropdownlist += '<li><a id="'+listItem.id + '" ' +
+        ' title="' + listItem.label +
+        ' , ' + listItem.id.replace('|', ', ') +
+        ' (' + listItem.type + ')"' +
+        ' href="#" >' +
+        listItem.label +
+        ' <img style="height: 100%" src="' + listItem.icon + '"></a></li>';
     });
     dropdownlist += "</ul>";
     //$('#search-inpt').
